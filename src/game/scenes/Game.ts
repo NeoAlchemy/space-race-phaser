@@ -48,10 +48,18 @@ export class Game extends Scene
 
         this.rightShip = this.physics.add.sprite(325, 584, 'spaceship');
         this.leftShip = this.physics.add.sprite(150, 584, 'spaceship');
+        
+
+        this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
+        this.leftShip.setCollideWorldBounds(true);
+        this.rightShip.setCollideWorldBounds(true);
+
+
     }
 
     update() {
         if (this.joystick.up) {
+            console.log("up")
             this.rightShip.setVelocityY(-100)
         }
         else if (this.joystick.down) {
