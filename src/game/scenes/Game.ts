@@ -148,8 +148,8 @@ export class Game extends Scene
     
         // Set random velocity, bounce, and rotation for the new asteroid
         newAsteroid.setPosition(
-            Phaser.Math.Between(0, 480),  // Random X velocity
-            Phaser.Math.Between(0, 500)   // Random Y velocity
+            Phaser.Math.Between(0, this.scale.width),  // Random X velocity
+            Phaser.Math.Between(0, 310)   // Random Y velocity
         );
     
         newAsteroid.setCollideWorldBounds(true);  // Ensure it bounces off world bounds
