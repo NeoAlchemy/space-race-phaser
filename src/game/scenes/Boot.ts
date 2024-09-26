@@ -25,7 +25,7 @@ export class Boot extends Scene
         const deviceOS = this.sys.game.device.os;
         
         if (deviceOS.android || deviceOS.iOS) {
-            this.scale.scaleMode = Phaser.Scale.ENVELOP;
+            this.scale.scaleMode = Phaser.Scale.FIT;
             this.scale.autoCenter = Phaser.Scale.CENTER_BOTH
 
         } else {

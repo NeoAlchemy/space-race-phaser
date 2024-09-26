@@ -12,8 +12,7 @@ export class Game extends Scene
     rightShip!: Phaser.Physics.Arcade.Sprite;
     leftShip!: Phaser.Physics.Arcade.Sprite;
     asteroidGroup!: Phaser.Physics.Arcade.Group;
-    scaleRatio = window.devicePixelRatio / 3;
-
+    
     constructor ()
     {
         super('Game');
@@ -42,15 +41,15 @@ export class Game extends Scene
 
 
         this.leftScore = 0;
-        this.leftScoreText = this.add.text(80, 550, this.leftScore.toString(), { font: '48px Verdana', color: AppConstants.FOREGROUND_COLOR_HEX });
+        this.leftScoreText = this.add.text(this.scale.width/6 - 40, 360, this.leftScore.toString(), { font: '48px Verdana', color: AppConstants.FOREGROUND_COLOR_HEX });
         this.rightScore = 0;
-        this.rightScoreText = this.add.text(380, 550, this.rightScore.toString(), { font: '48px Verdana', color: AppConstants.FOREGROUND_COLOR_HEX });
+        this.rightScoreText = this.add.text((this.scale.width/6) * 5, 360, this.rightScore.toString(), { font: '48px Verdana', color: AppConstants.FOREGROUND_COLOR_HEX });
         
-        const pole = this.add.rectangle(245, 550, 10, 100, 0xFFFFFF)
+        const pole = this.add.rectangle(180, 360, 10, 100, 0xFFFFFF)
         this.add.rectangle(pole.x, pole.y + pole.height/2, this.scale.width, 1, 0xFFFFFF)
 
-        this.rightShip = this.physics.add.sprite(325, AppConstants.SHIP_STARTING_POINT, 'spaceship');
-        this.leftShip = this.physics.add.sprite(150, AppConstants.SHIP_STARTING_POINT, 'spaceship');
+        this.rightShip = this.physics.add.sprite(260, AppConstants.SHIP_STARTING_POINT, 'spaceship');
+        this.leftShip = this.physics.add.sprite(100, AppConstants.SHIP_STARTING_POINT, 'spaceship');
 
         this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
         this.leftShip.setCollideWorldBounds(true);
@@ -58,7 +57,7 @@ export class Game extends Scene
 
         this.asteroidGroup = this.physics.add.group({
             key: 'asteroid',   
-            repeat: 40,        
+            repeat: 30,        
             setXY: {           
                 x: Phaser.Math.Between(0, this.scale.width),  // Random X position
                 y: Phaser.Math.Between(0, this.scale.height), // Random Y position
