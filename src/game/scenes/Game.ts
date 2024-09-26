@@ -11,6 +11,7 @@ export class Game extends Scene
     cursorKeys!: any;
     rightShip!: Phaser.Physics.Arcade.Sprite;
     leftShip!: Phaser.Physics.Arcade.Sprite;
+    asteroidGroup!: Phaser.Physics.Arcade.Group;
 
     constructor ()
     {
@@ -46,49 +47,82 @@ export class Game extends Scene
         this.add.rectangle(245, 550, 10, 100, 0xFFFFFF)
         this.add.rectangle(240, 600, 480, 1, 0xFFFFFF)
 
-        this.rightShip = this.physics.add.sprite(325, 584, 'spaceship');
-        this.leftShip = this.physics.add.sprite(150, 584, 'spaceship');
+        this.rightShip = this.physics.add.sprite(325, AppConstants.SHIP_STARTING_POINT, 'spaceship');
+        this.leftShip = this.physics.add.sprite(150, AppConstants.SHIP_STARTING_POINT, 'spaceship');
         
 
         this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
         this.leftShip.setCollideWorldBounds(true);
         this.rightShip.setCollideWorldBounds(true);
 
+        this.asteroidGroup = this.physics.add.group({
+            key: 'asteroid',   
+            repeat: 40,        
+            setXY: {           
+                x: Phaser.Math.Between(0, this.scale.width),  // Random X position
+                y: Phaser.Math.Between(0, this.scale.height), // Random Y position
+            }
+        });
 
+        this.asteroidGroup.children.iterate((asteroid: GameObjects.GameObject) => {
+            const asteroidSprite = asteroid as Phaser.Physics.Arcade.Sprite;
+            asteroidSprite.setPosition(
+                Phaser.Math.Between(0, 480),  // Random X velocity
+                Phaser.Math.Between(0, 500)   // Random Y velocity
+            );
+            asteroidSprite.setCollideWorldBounds(true);  // Make sure asteroids bounce off world bounds
+            asteroidSprite.setBounce(1);                 // Set a bounce effect
+            asteroidSprite.setVelocityX(Phaser.Math.Between(-150, 150));  // Random rotation
+            return null;
+        });
+
+        this.physics.add.collider(this.rightShip, this.asteroidGroup, this.asteroidHitShip, undefined, this)
     }
 
     update() {
-        if (this.joystick.up) {
-            this.rightShip.setVelocityY(-100)
-        }
-        else if (this.joystick.down) {
-            this.rightShip.setVelocityY(100)
-        } else {
-            this.rightShip.setVelocity(0)
+        let velocityY = 0;  // Set a default velocity of 0
+
+        // Joystick movement detection
+        if (this.joystick) {
+            if (this.joystick.up) {
+                velocityY = -AppConstants.SHIP_VELOCITY;  // Move up
+            } else if (this.joystick.down) {
+                velocityY = AppConstants.SHIP_VELOCITY;  // Move down
+            }
         }
 
-        if (this.cursorKeys && this.cursorKeys.up.isDown) {
-            this.rightShip.setVelocityY(-100)
-        }
-        else if (this.cursorKeys && this.cursorKeys.down.isDown) {
-            this.rightShip.setVelocityY(100)
-        } else {
-            this.rightShip.setVelocity(0)
+        // Keyboard movement detection
+        if (this.cursorKeys) {
+            if (this.cursorKeys.up.isDown) {
+                velocityY = -AppConstants.SHIP_VELOCITY;  // Override with keyboard up
+            } else if (this.cursorKeys.down.isDown) {
+                velocityY = AppConstants.SHIP_VELOCITY;  // Override with keyboard down
+            }
         }
 
+        // Apply the velocity to the right ship
+        this.rightShip.setVelocityY(velocityY);
+
+        // Check for collisions or scoring conditions
         this._hitCeiling();
+    }
+
+    asteroidHitShip(ship: any, asteroid: any) {
+        asteroid.setVelocityX(0);
+        ship.setVelocityX(0)
+        this.rightShip.y = AppConstants.SHIP_STARTING_POINT
     }
 
     _hitCeiling() {
         if (this.rightShip.y == (this.rightShip.height / 2)) {
             this.rightScore++
             this.rightScoreText.setText(this.rightScore.toString())
-            this.rightShip.y = 584
+            this.rightShip.y = AppConstants.SHIP_STARTING_POINT
         }
         if (this.leftShip.y == (this.leftShip.height / 2)) {
             this.leftScore++
             this.leftScoreText.setText(this.leftScore.toString())
-            this.leftShip.y = 584
+            this.leftShip.y = AppConstants.SHIP_STARTING_POINT
         }
     }
 }

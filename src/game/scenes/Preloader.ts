@@ -34,6 +34,7 @@ export class Preloader extends Scene
       this.load.setPath('assets');
 
       this.load.image('spaceship', 'spaceship.png');
+      this.load.image('asteroid', 'asteroid.png');
       this.load.plugin(
         'rexvirtualjoystickplugin',
         'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js',

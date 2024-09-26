@@ -10,4 +10,7 @@ export class AppConstants {
     static readonly JOYSTICK_THUMB_COLOR: number = 0xcccccc;
     static readonly JOYSTICK_DIR: string = 'up&down';
 
+    static readonly SHIP_STARTING_POINT: number = 584;
+    static readonly SHIP_VELOCITY: number = 100;
+
 }

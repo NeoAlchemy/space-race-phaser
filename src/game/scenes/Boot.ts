@@ -18,7 +18,6 @@ export class Boot extends Scene
             fontDataURL: 'assets/font/OswaldLightRed.xml',
         });
         this.load.image('logo', 'assets/logo.png');
-        this.load.image('splashscreen', 'assets/splashscreen.png');
     }
 
     create ()
