@@ -59,7 +59,6 @@ export class Game extends Scene
 
     update() {
         if (this.joystick.up) {
-            console.log("up")
             this.rightShip.setVelocityY(-100)
         }
         else if (this.joystick.down) {
@@ -75,6 +74,21 @@ export class Game extends Scene
             this.rightShip.setVelocityY(100)
         } else {
             this.rightShip.setVelocity(0)
+        }
+
+        this._hitCeiling();
+    }
+
+    _hitCeiling() {
+        if (this.rightShip.y == (this.rightShip.height / 2)) {
+            this.rightScore++
+            this.rightScoreText.setText(this.rightScore.toString())
+            this.rightShip.y = 584
+        }
+        if (this.leftShip.y == (this.leftShip.height / 2)) {
+            this.leftScore++
+            this.leftScoreText.setText(this.leftScore.toString())
+            this.leftShip.y = 584
         }
     }
 }
