@@ -44,8 +44,8 @@ export class Game extends Scene
         this.rightScore = 0;
         this.rightScoreText = this.add.text(380, 550, this.rightScore.toString(), { font: '48px Verdana', color: AppConstants.FOREGROUND_COLOR_HEX });
         
-        this.add.rectangle(245, 550, 10, 100, 0xFFFFFF)
-        this.add.rectangle(240, 600, 480, 1, 0xFFFFFF)
+        const pole = this.add.rectangle(245, 550, 10, 100, 0xFFFFFF)
+        this.add.rectangle(pole.x, pole.y + pole.height/2, this.scale.width, 1, 0xFFFFFF)
 
         this.rightShip = this.physics.add.sprite(325, AppConstants.SHIP_STARTING_POINT, 'spaceship');
         this.leftShip = this.physics.add.sprite(150, AppConstants.SHIP_STARTING_POINT, 'spaceship');
@@ -67,12 +67,12 @@ export class Game extends Scene
         this.asteroidGroup.children.iterate((asteroid: GameObjects.GameObject) => {
             const asteroidSprite = asteroid as Phaser.Physics.Arcade.Sprite;
             asteroidSprite.setPosition(
-                Phaser.Math.Between(0, 480),  // Random X velocity
-                Phaser.Math.Between(0, 500)   // Random Y velocity
+                Phaser.Math.Between(0, this.scale.width),  // Random X velocity
+                Phaser.Math.Between(0, this.scale.height - (this.scale.height - pole.y) - (pole.height / 2))   // Random Y velocity
             );
             asteroidSprite.setCollideWorldBounds(true);  // Make sure asteroids bounce off world bounds
             asteroidSprite.setBounce(1);                 // Set a bounce effect
-            asteroidSprite.setVelocityX(Phaser.Math.Between(-150, 150));  // Random rotation
+            asteroidSprite.setVelocityX(Phaser.Math.Between(-AppConstants.ASTEROID_VELOCITY, AppConstants.ASTEROID_VELOCITY));  // Random rotation
             return null;
         });
 
@@ -154,7 +154,7 @@ export class Game extends Scene
     
         newAsteroid.setCollideWorldBounds(true);  // Ensure it bounces off world bounds
         newAsteroid.setBounce(1);                 // Set bounce for world bounds
-        newAsteroid.setVelocityX(Phaser.Math.Between(-150, 150))
+        newAsteroid.setVelocityX(Phaser.Math.Between(-AppConstants.ASTEROID_VELOCITY, AppConstants.ASTEROID_VELOCITY))
     }
     
 }

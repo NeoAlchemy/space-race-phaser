@@ -13,4 +13,6 @@ export class AppConstants {
     static readonly SHIP_STARTING_POINT: number = 584;
     static readonly SHIP_VELOCITY: number = 100;
 
+    static readonly ASTEROID_VELOCITY: number = 100;
+
 }
