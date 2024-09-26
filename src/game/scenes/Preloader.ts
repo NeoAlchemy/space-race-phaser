@@ -69,7 +69,7 @@ export class Preloader extends Scene
         });
     
         setTimeout(() => {
-          //this.scene.start('Game');
+          this.scene.start('Game');
         }, 2000);
     }
 }
