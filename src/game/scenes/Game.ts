@@ -105,12 +105,16 @@ export class Game extends Scene
 
         // Check for collisions or scoring conditions
         this._hitCeiling();
+        this._preventDiggingInEarth()
     }
 
     asteroidHitShip(ship: any, asteroid: any) {
-        asteroid.setVelocityX(0);
+        asteroid.setVelocityY(0);
+        asteroid.destroy();
+        this._addNewAsteroid(asteroid.y)
         ship.setVelocityX(0)
         this.rightShip.y = AppConstants.SHIP_STARTING_POINT
+
     }
 
     _hitCeiling() {
@@ -125,4 +129,32 @@ export class Game extends Scene
             this.leftShip.y = AppConstants.SHIP_STARTING_POINT
         }
     }
+
+    _preventDiggingInEarth() {
+        if (this.rightShip.y > AppConstants.SHIP_STARTING_POINT) {
+            this.rightShip.y = AppConstants.SHIP_STARTING_POINT
+        }
+        if (this.leftShip.y > AppConstants.SHIP_STARTING_POINT) {
+            this.leftShip.y = AppConstants.SHIP_STARTING_POINT
+        } 
+    }
+
+    _addNewAsteroid(y: number) {
+        // Randomly generate the asteroid position within the game bounds
+        const x = Phaser.Math.Between(0, this.scale.width);
+        
+        // Create a new asteroid and add it to the group
+        const newAsteroid = this.asteroidGroup.create(x, y, 'asteroid') as Phaser.Physics.Arcade.Sprite;
+    
+        // Set random velocity, bounce, and rotation for the new asteroid
+        newAsteroid.setPosition(
+            Phaser.Math.Between(0, 480),  // Random X velocity
+            Phaser.Math.Between(0, 500)   // Random Y velocity
+        );
+    
+        newAsteroid.setCollideWorldBounds(true);  // Ensure it bounces off world bounds
+        newAsteroid.setBounce(1);                 // Set bounce for world bounds
+        newAsteroid.setVelocityX(Phaser.Math.Between(-150, 150))
+    }
+    
 }
