@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+  
+html {
+  height: 100%;
+}
+  
+body {
+  background: -moz-linear-gradient(top, #1f7373, #75a62d);
+  background: -webkit-linear-gradient(top, #1f7373, #75a62d);
+  background: linear-gradient(top, #1f7373, #75a62d);
+  text-align: center;
+}
