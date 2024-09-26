@@ -72,7 +72,7 @@ export class Game extends Scene
             );
             asteroidSprite.setCollideWorldBounds(true);  // Make sure asteroids bounce off world bounds
             asteroidSprite.setBounce(1);                 // Set a bounce effect
-            asteroidSprite.setVelocityX(Phaser.Math.Between(-AppConstants.ASTEROID_VELOCITY, AppConstants.ASTEROID_VELOCITY));  // Random rotation
+            asteroidSprite.setVelocityX( Phaser.Math.Between(0,1) ? -AppConstants.ASTEROID_VELOCITY : AppConstants.ASTEROID_VELOCITY);  // Random rotation
             return null;
         });
 
@@ -154,7 +154,7 @@ export class Game extends Scene
     
         newAsteroid.setCollideWorldBounds(true);  // Ensure it bounces off world bounds
         newAsteroid.setBounce(1);                 // Set bounce for world bounds
-        newAsteroid.setVelocityX(Phaser.Math.Between(-AppConstants.ASTEROID_VELOCITY, AppConstants.ASTEROID_VELOCITY))
+        newAsteroid.setVelocityX( Phaser.Math.Between(0,1) ? -AppConstants.ASTEROID_VELOCITY : AppConstants.ASTEROID_VELOCITY)
     }
     
 }
