@@ -12,6 +12,7 @@ export class Game extends Scene
     rightShip!: Phaser.Physics.Arcade.Sprite;
     leftShip!: Phaser.Physics.Arcade.Sprite;
     asteroidGroup!: Phaser.Physics.Arcade.Group;
+    scaleRatio = window.devicePixelRatio / 3;
 
     constructor ()
     {
@@ -21,7 +22,8 @@ export class Game extends Scene
     create ()
     {
         this.cameras.main.setBackgroundColor(0x000000);
-
+        const deviceOS = this.sys.game.device.os;
+        
         const rexVirtualJoyStickPlugin: any = this.plugins.get('rexvirtualjoystickplugin');
         const joystick = rexVirtualJoyStickPlugin.add(this, {
             x: AppConstants.JOYSTICK_X,
@@ -45,10 +47,21 @@ export class Game extends Scene
         this.rightScoreText = this.add.text(380, 550, this.rightScore.toString(), { font: '48px Verdana', color: AppConstants.FOREGROUND_COLOR_HEX });
         
         const pole = this.add.rectangle(245, 550, 10, 100, 0xFFFFFF)
+        
+        if (deviceOS.android || deviceOS.iOS) {
+            pole.scale = this.scaleRatio
+        }
         this.add.rectangle(pole.x, pole.y + pole.height/2, this.scale.width, 1, 0xFFFFFF)
 
         this.rightShip = this.physics.add.sprite(325, AppConstants.SHIP_STARTING_POINT, 'spaceship');
         this.leftShip = this.physics.add.sprite(150, AppConstants.SHIP_STARTING_POINT, 'spaceship');
+
+        
+        
+        if (deviceOS.android || deviceOS.iOS) {
+            this.rightShip.scale = this.scaleRatio
+            this.leftShip.scale = this.scaleRatio
+        }
         
 
         this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
