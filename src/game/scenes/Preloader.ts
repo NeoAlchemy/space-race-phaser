@@ -33,8 +33,12 @@ export class Preloader extends Scene
       //  Load the assets for the game - Replace with your own assets
       this.load.setPath('assets');
 
-      this.load.image('logo', 'logo.png');
-      this.load.image('star', 'star.png');
+      this.load.image('spaceship', 'spaceship.png');
+      this.load.plugin(
+        'rexvirtualjoystickplugin',
+        'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js',
+        true
+      );
     }
 
     private logo!: Phaser.GameObjects.Image;
