@@ -57,7 +57,7 @@ export class Game extends Scene
 
         this.asteroidGroup = this.physics.add.group({
             key: 'asteroid',   
-            repeat: 30,        
+            repeat: AppConstants.ASTEROID_COUNT,        
             setXY: {           
                 x: Phaser.Math.Between(0, this.scale.width),  // Random X position
                 y: Phaser.Math.Between(0, this.scale.height), // Random Y position

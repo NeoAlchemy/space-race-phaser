@@ -14,5 +14,6 @@ export class AppConstants {
     static readonly SHIP_VELOCITY: number = 100;
 
     static readonly ASTEROID_VELOCITY: number = 50;
+    static readonly ASTEROID_COUNT: number = 20;
 
 }
